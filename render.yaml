@@ -1,0 +1,28 @@
+services:
+  # 🚀 Backend (Express / Node.js)
+  - type: web
+    name: mern-bookstore-backend
+    env: node
+    plan: free
+    buildCommand: "cd backend && npm install"
+    startCommand: "cd backend && npm start"
+    autoDeploy: true
+    envVars:
+      - key: MONGO_URI
+        sync: false   # add in dashboard (MongoDB Atlas connection string)
+      - key: JWT_SECRET
+        sync: false   # add in dashboard if your backend uses JWT
+      - key: PORT
+        value: 10000
+
+  # 🌍 Frontend (React)
+  - type: web
+    name: mern-bookstore-frontend
+    env: node
+    plan: free
+    buildCommand: "cd frontend && npm install && npm run build"
+    startCommand: "cd frontend && npm install -g serve && serve -s build"
+    autoDeploy: true
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://mern-bookstore-backend.onrender.com
